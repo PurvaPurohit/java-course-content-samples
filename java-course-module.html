@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Programming — Full Learning Module</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #faf7f2;
+  --warm: #f0ebe0;
+  --paper: #fffdf9;
+  --ink: #1a1612;
+  --ink2: #3d3530;
+  --muted: #8a7f74;
+  --rule: #d9d0c4;
+  --red: #c0392b;
+  --blue: #1a4a7a;
+  --green: #1a5c3a;
+  --amber: #b8620a;
+  --code-bg: #1e1b18;
+  --code-text: #e8e0d0;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Lora', serif;
+  font-size: 16px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* PROGRESS */
+#progress {
+  position: fixed; top:0; left:0; height:4px;
+  background: linear-gradient(90deg, var(--red), var(--amber));
+  width:0; z-index:999; transition: width .15s;
+}
+
+/* NAV */
+nav {
+  position: sticky; top:0; z-index:100;
+  background: var(--ink);
+  display: flex; align-items: center; gap:0;
+  padding: 0 32px;
+  height: 52px;
+  overflow-x: auto;
+  border-bottom: 3px solid var(--red);
+}
+
+nav::-webkit-scrollbar { height: 0; }
+
+.nav-item {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  padding: 0 18px;
+  height: 52px;
+  display: flex; align-items: center;
+  cursor: pointer;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  white-space: nowrap;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+
+.nav-item:first-child { color: var(--red); border-left: 1px solid rgba(255,255,255,0.08); }
+.nav-item:hover { color: white; background: rgba(255,255,255,0.05); }
+.nav-item.active { color: var(--amber); }
+
+/* HERO — NEWSPAPER FRONT PAGE */
+.hero {
+  background: var(--paper);
+  border-bottom: 4px double var(--ink);
+  padding: 48px 40px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.paper-header {
+  text-align: center;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.paper-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.paper-meta {
+  display: flex; align-items: center; justify-content: center; gap:24px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.paper-meta span { display: flex; align-items: center; gap:6px; }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 700px) { .hero-grid { grid-template-columns: 1fr; } nav { padding: 0 16px; } }
+
+.hero-lead h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.hero-lead h1 em { color: var(--red); font-style: normal; }
+
+.hero-lead p {
+  font-size: 17px;
+  color: var(--ink2);
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+
+.drop-cap::first-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px;
+  font-weight: 900;
+  float: left;
+  line-height: 0.8;
+  margin-right: 8px;
+  margin-top: 8px;
+  color: var(--red);
+}
+
+.lesson-index {
+  background: var(--warm);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 24px;
+}
+
+.lesson-index h3 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+
+.index-item {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px dotted var(--rule);
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.index-item:hover .index-title { color: var(--red); }
+.index-item:last-child { border-bottom: none; }
+
+.index-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  flex-shrink: 0;
+  width: 28px;
+}
+
+.index-title {
+  font-size: 14px;
+  color: var(--ink2);
+  transition: color .2s;
+}
+
+.index-dots { flex: 1; border-bottom: 1px dotted var(--rule); margin-bottom: 3px; }
+
+.index-page {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* SECTION WRAPPER */
+.module-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px 40px;
+  border-bottom: 2px solid var(--rule);
+}
+
+@media (max-width: 700px) { .module-section { padding: 48px 20px; } }
+
+/* LESSON HEADER */
+.lesson-header {
+  display: flex; align-items: flex-start; gap: 24px;
+  margin-bottom: 40px;
+}
+
+.lesson-num-big {
+  font-family: 'Playfair Display', serif;
+  font-size: 100px;
+  font-weight: 900;
+  line-height: 0.85;
+  color: var(--rule);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.lesson-header-text h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.lesson-header-text h2 span { color: var(--red); }
+
+.lesson-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: white;
+  background: var(--ink);
+  padding: 3px 10px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+/* TWO-COLUMN LAYOUT */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 700px) {
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .lesson-num-big { font-size: 60px; }
+}
+
+/* PULL QUOTE */
+.pull-quote {
+  border-left: 5px solid var(--red);
+  padding: 16px 24px;
+  margin: 28px 0;
+  background: var(--warm);
+  border-radius: 0 4px 4px 0;
+}
+
+.pull-quote p {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.pull-quote cite {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  display: block;
+  margin-top: 8px;
+  letter-spacing: 1px;
+}
+
+/* INFO BOX */
+.info-box {
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin: 24px 0;
+}
+
+.info-box.blue { border-color: #a8c4e0; background: #eef4fb; }
+.info-box.green { border-color: #a8d4b8; background: #eef8f2; }
+.info-box.amber { border-color: #e0c48a; background: #fdf6e8; }
+.info-box.red { border-color: #e0a8a8; background: #fdf0f0; }
+
+.info-box-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.info-box.blue .info-box-label { color: var(--blue); }
+.info-box.green .info-box-label { color: var(--green); }
+.info-box.amber .info-box-label { color: var(--amber); }
+.info-box.red .info-box-label { color: var(--red); }
+
+.info-box p, .info-box li { font-size: 14px; line-height: 1.7; color: var(--ink2); }
+.info-box ul { padding-left: 18px; }
+.info-box li { margin-bottom: 6px; }
+
+/* CODE BLOCK */
+.code-wrap {
+  position: relative;
+  margin: 24px 0;
+}
+
+.code-label {
+  background: var(--ink);
+  color: var(--amber);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 6px 16px;
+  border-radius: 4px 4px 0 0;
+  display: inline-block;
+}
+
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  line-height: 2;
+  padding: 24px 28px;
+  border-radius: 0 4px 4px 4px;
+  overflow-x: auto;
+  border: 1px solid #333;
+}
+
+.kw { color: #e06c75; }
+.ty { color: #56b6c2; }
+.vn { color: #abb2bf; }
+.val { color: #98c379; }
+.str { color: #e5c07b; }
+.cm { color: #5c6370; font-style: italic; }
+.fn { color: #61afef; }
+.cl { color: #e5c07b; font-weight: 600; }
+
+/* JVM DIAGRAM */
+.jvm-visual {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0; margin: 32px 0;
+}
+
+.jvm-layer {
+  width: 100%;
+  border: 2px solid;
+  border-radius: 6px;
+  padding: 14px 24px;
+  text-align: center;
+  position: relative;
+}
+
+.jvm-layer.source { border-color: var(--blue); background: #eef4fb; }
+.jvm-layer.compile { border-color: var(--amber); background: #fdf6e8; }
+.jvm-layer.jvm { border-color: var(--red); background: #fdf0f0; }
+.jvm-layer.os { border-color: var(--green); background: #eef8f2; }
+
+.jvm-layer-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.jvm-layer.source .jvm-layer-title { color: var(--blue); }
+.jvm-layer.compile .jvm-layer-title { color: var(--amber); }
+.jvm-layer.jvm .jvm-layer-title { color: var(--red); }
+.jvm-layer.os .jvm-layer-title { color: var(--green); }
+
+.jvm-layer p { font-size: 12px; color: var(--ink2); margin-top: 4px; }
+
+.jvm-arrow {
+  font-size: 22px; color: var(--muted); line-height: 1; padding: 4px 0;
+}
+
+/* ANALOGY CARDS */
+.analogy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+@media (max-width: 600px) { .analogy-grid { grid-template-columns: 1fr; } }
+
+.analogy-card {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.analogy-head {
+  padding: 12px 18px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--rule);
+}
+
+.analogy-head.code-side { background: var(--code-bg); color: var(--amber); }
+.analogy-head.real-side { background: var(--warm); color: var(--ink2); }
+
+.analogy-body { padding: 16px 18px; font-size: 14px; line-height: 1.7; color: var(--ink2); }
+.analogy-body code {
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--warm);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+/* DATA TYPE TABLE */
+.type-table {
+  width: 100%; border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+}
+
+.type-table th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  text-align: left;
+  background: var(--ink);
+  color: var(--amber);
+}
+
+.type-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  color: var(--ink2);
+}
+
+.type-table tr:last-child td { border-bottom: none; }
+.type-table tr:nth-child(even) td { background: var(--warm); }
+
+.type-table .type-name {
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--blue);
+  font-weight: 600;
+}
+
+/* FLOWCHART */
+.flowchart {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0; padding: 8px 0; margin: 24px 0;
+}
+
+.flow-node {
+  padding: 12px 28px;
+  border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  text-align: center;
+  max-width: 280px;
+  width: 100%;
+}
+
+.flow-node.start { background: var(--ink); color: white; border-radius: 30px; }
+.flow-node.process { background: #eef4fb; border: 2px solid var(--blue); color: var(--blue); }
+.flow-node.decision { background: #fdf6e8; border: 2px solid var(--amber); color: var(--amber); transform: none; position: relative; }
+.flow-node.output { background: #eef8f2; border: 2px solid var(--green); color: var(--green); }
+.flow-node.end { background: var(--red); color: white; border-radius: 30px; }
+
+.flow-decision-wrap {
+  display: flex; gap: 24px; align-items: flex-start; width: 100%;
+  justify-content: center;
+}
+
+.flow-branch { display: flex; flex-direction: column; align-items: center; gap:0; }
+.flow-branch-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  padding: 3px 0;
+}
+
+.flow-arrow { font-size: 20px; color: var(--muted); padding: 2px 0; line-height:1.2; }
+
+/* LOOP VISUAL */
+.loop-visual {
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 32px;
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.loop-phase {
+  display: flex; align-items: center; gap: 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 12px 20px;
+  width: 100%; max-width: 400px;
+}
+
+.loop-phase-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--amber);
+  flex-shrink: 0;
+  width: 32px;
+}
+
+.loop-phase-text h4 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: white;
+  margin-bottom: 2px;
+}
+
+.loop-phase-text p { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+.loop-arrow-down { color: rgba(255,255,255,0.2); font-size: 20px; padding: 4px 0; }
+
+.loop-back {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--red);
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  border: 1px dashed rgba(192,57,43,0.4);
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+/* ITERATION TRACKER */
+.iter-tracker { margin: 24px 0; }
+
+.iter-row {
+  display: grid;
+  grid-template-columns: 70px 60px 80px 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: center;
+}
+
+.iter-row.header { background: var(--ink); }
+
+.iter-cell {
+  padding: 10px 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  border-right: 1px solid var(--rule);
+}
+
+.iter-row.header .iter-cell { color: var(--amber); font-size: 10px; letter-spacing: 1px; border-right-color: rgba(255,255,255,0.1); }
+.iter-row:not(.header):nth-child(even) { background: var(--warm); }
+.iter-cell:last-child { border-right: none; }
+
+.iter-row .output-cell { color: var(--green); font-family: 'IBM Plex Mono', monospace; font-size: 12px; padding: 10px 14px; }
+.iter-row.exit { background: rgba(192,57,43,0.08); }
+.iter-row.exit .iter-cell { color: var(--red); }
+
+/* MINI PROJECT */
+.project-section {
+  background: var(--ink);
+  color: white;
+  padding: 64px 40px;
+}
+
+.project-inner { max-width: 1200px; margin: 0 auto; }
+
+.project-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 900;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.project-section h2 em { color: var(--amber); font-style: normal; }
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 40px 0;
+}
+
+@media (max-width: 800px) { .feature-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 500px) { .feature-grid { grid-template-columns: 1fr; } }
+
+.feature-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 24px 20px;
+  transition: all .2s;
+  cursor: default;
+}
+
+.feature-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+
+.feature-icon { font-size: 28px; margin-bottom: 12px; }
+
+.feature-card h4 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--amber);
+  margin-bottom: 6px;
+}
+
+.feature-card p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+.architecture-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 40px;
+}
+
+@media (max-width: 700px) { .architecture-grid { grid-template-columns: 1fr; } }
+
+.arch-card {
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.arch-card-header {
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--amber);
+  text-transform: uppercase;
+}
+
+.arch-card pre {
+  border-radius: 0;
+  border: none;
+  font-size: 12px;
+  line-height: 1.9;
+  background: transparent;
+  padding: 20px;
+}
+
+/* QUIZ SECTION */
+.quiz-section { background: var(--warm); padding: 64px 40px; }
+.quiz-inner { max-width: 900px; margin: 0 auto; }
+
+.quiz-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.quiz-section h2 span { color: var(--red); }
+
+.quiz-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  margin: 24px 0;
+  overflow: hidden;
+}
+
+.quiz-q-head {
+  padding: 16px 24px;
+  background: var(--ink);
+  display: flex; align-items: center; gap: 14px;
+}
+
+.quiz-qnum {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--amber);
+  flex-shrink: 0;
+}
+
+.quiz-q-text {
+  font-size: 15px;
+  color: white;
+  line-height: 1.5;
+}
+
+.quiz-q-text code {
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--amber);
+  font-size: 13px;
+}
+
+.quiz-options { padding: 20px 24px; display: flex; flex-direction: column; gap: 10px; }
+
+.quiz-btn {
+  background: var(--warm);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 12px 18px;
+  text-align: left;
+  cursor: pointer;
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  color: var(--ink);
+  display: flex; align-items: center; gap: 12px;
+  transition: all .2s;
+}
+
+.quiz-btn:hover { border-color: var(--amber); background: #fdf6e8; }
+.quiz-btn.correct { border-color: var(--green); background: #eef8f2; color: var(--green); }
+.quiz-btn.wrong { border-color: var(--red); background: #fdf0f0; color: var(--red); }
+
+.q-letter {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--rule);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.quiz-feedback {
+  margin: 0 24px 20px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  display: none;
+  font-style: italic;
+}
+
+.quiz-feedback.show { display: block; }
+.quiz-feedback.ok { background: #eef8f2; border: 1px solid #a8d4b8; color: var(--green); }
+.quiz-feedback.no { background: #fdf0f0; border: 1px solid #e0a8a8; color: var(--red); }
+
+/* SCORE BOARD */
+#scoreBoard {
+  text-align: center; padding: 32px; display: none;
+  background: var(--paper);
+  border: 2px solid var(--rule);
+  border-radius: 8px;
+  margin-top: 24px;
+}
+
+#scoreBoard h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+#scoreBoard p { color: var(--muted); font-size: 14px; }
+
+/* FOOTER */
+footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  padding: 32px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+footer span { color: var(--amber); }
+
+/* FADE IN */
+.fade-in { opacity:0; transform:translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+.fade-in.visible { opacity:1; transform:translateY(0); }
+
+/* EXERCISE BOX */
+.exercise-box {
+  border: 2px dashed var(--blue);
+  border-radius: 8px;
+  padding: 24px;
+  margin: 24px 0;
+  background: #eef4fb;
+}
+
+.exercise-box h4 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+
+.exercise-box p { font-size: 14px; line-height: 1.7; color: var(--ink2); }
+.exercise-box ol { padding-left: 20px; margin-top: 8px; }
+.exercise-box li { font-size: 14px; line-height: 1.8; color: var(--ink2); }
+
+/* DIVIDER */
+.section-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-item" onclick="scrollTo('lesson0')">Intro</div>
+  <div class="nav-item" onclick="scrollTo('lesson1')">L1: Java Basics</div>
+  <div class="nav-item" onclick="scrollTo('lesson2')">L2: Variables</div>
+  <div class="nav-item" onclick="scrollTo('lesson3')">L3: Control Flow</div>
+  <div class="nav-item" onclick="scrollTo('lesson4')">L4: Loops</div>
+  <div class="nav-item" onclick="scrollTo('project')">Mini Project</div>
+  <div class="nav-item" onclick="scrollTo('quiz')">Quiz</div>
+</nav>
+
+<!-- HERO -->
+<div id="lesson0">
+<section class="hero fade-in">
+  <div class="paper-header">
+    <div class="paper-name">THE JAVA GAZETTE</div>
+    <div class="paper-meta">
+      <span>📋 Complete Learning Module</span>
+      <span>⏱ Est. 3–4 hours</span>
+      <span>🎯 4 Lessons + 1 Project + Quiz</span>
+      <span>📈 Beginner → Intermediate</span>
+    </div>
+  </div>
+
+  <div class="hero-grid">
+    <div class="hero-lead">
+      <h1>Learn Java the way your brain actually <em>works</em></h1>
+      <p class="drop-cap">Java is not about memorizing syntax. It is about building a mental model of how a computer thinks — and then learning to speak its language. This module takes you from zero to building a real project in four structured lessons.</p>
+      <div class="pull-quote">
+        <p>"Write Once, Run Anywhere."</p>
+        <cite>— Java's original design promise, and why it still powers billions of devices</cite>
+      </div>
+      <p style="font-size:15px; color:var(--muted);">Each lesson pairs theory with real-world analogies, interactive code examples, and exercises you can run immediately. No padding. No filler.</p>
+    </div>
+
+    <div>
+      <div class="lesson-index">
+        <h3>Contents</h3>
+        <div class="index-item" onclick="scrollTo('lesson1')">
+          <span class="index-num">L1</span>
+          <span class="index-title">Introduction to Java</span>
+          <span class="index-dots"></span>
+          <span class="index-page">JVM</span>
+        </div>
+        <div class="index-item" onclick="scrollTo('lesson2')">
+          <span class="index-num">L2</span>
+          <span class="index-title">Variables & Data Types</span>
+          <span class="index-dots"></span>
+          <span class="index-page">Memory</span>
+        </div>
+        <div class="index-item" onclick="scrollTo('lesson3')">
+          <span class="index-num">L3</span>
+          <span class="index-title">Control Flow</span>
+          <span class="index-dots"></span>
+          <span class="index-page">Decisions</span>
+        </div>
+        <div class="index-item" onclick="scrollTo('lesson4')">
+          <span class="index-num">L4</span>
+          <span class="index-title">Loops</span>
+          <span class="index-dots"></span>
+          <span class="index-page">Repetition</span>
+        </div>
+        <div class="index-item" onclick="scrollTo('project')">
+          <span class="index-num">P1</span>
+          <span class="index-title">Student Management System</span>
+          <span class="index-dots"></span>
+          <span class="index-page">Project</span>
+        </div>
+        <div class="index-item" onclick="scrollTo('quiz')">
+          <span class="index-num">Q</span>
+          <span class="index-title">Module Quiz</span>
+          <span class="index-dots"></span>
+          <span class="index-page">Test</span>
+        </div>
+      </div>
+
+      <div class="info-box blue" style="margin-top:16px;">
+        <div class="info-box-label">Course Goals</div>
+        <ul>
+          <li>Understand how Java and the JVM work</li>
+          <li>Write programs with variables, conditions, loops</li>
+          <li>Apply OOP in a real mini project</li>
+          <li>Develop confidence to tackle real problems</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- LESSON 1 -->
+<div id="lesson1">
+<section class="module-section fade-in">
+  <div class="lesson-header">
+    <div class="lesson-num-big">01</div>
+    <div class="lesson-header-text">
+      <div class="lesson-tag">Lesson 1</div>
+      <h2>Introduction to <span>Java</span></h2>
+      <p style="color:var(--muted); font-size:15px;">What Java actually is — and why the JVM changes everything</p>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <p>Java is not just a language. It is a platform. Most programming languages compile to instructions specific to one operating system — your code for Windows won't run on Mac. Java broke this rule in 1995 by inventing a middle layer: the <strong>Java Virtual Machine (JVM)</strong>.</p>
+
+      <p style="margin-top:16px;">You write Java code once. The compiler converts it to a universal format called <em>bytecode</em>. The JVM on any device reads that bytecode and executes it natively. This is the "Write Once, Run Anywhere" promise — and it is why Java still powers Android, banking systems, and enterprise software three decades later.</p>
+
+      <div class="pull-quote" style="margin-top:24px;">
+        <p>"The JVM is like a universal translator between your code and the machine."</p>
+        <cite>— How to think about platform independence</cite>
+      </div>
+    </div>
+
+    <div>
+      <div class="jvm-visual">
+        <div class="jvm-layer source">
+          <div class="jvm-layer-title">📝 YOUR CODE</div>
+          <p>HelloWorld.java — human-readable text</p>
+        </div>
+        <div class="jvm-arrow">↓ javac (compiler)</div>
+        <div class="jvm-layer compile">
+          <div class="jvm-layer-title">⚙️ BYTECODE</div>
+          <p>HelloWorld.class — platform-neutral instructions</p>
+        </div>
+        <div class="jvm-arrow">↓ java (runtime)</div>
+        <div class="jvm-layer jvm">
+          <div class="jvm-layer-title">🖥 JVM</div>
+          <p>Reads bytecode, translates for the current OS</p>
+        </div>
+        <div class="jvm-arrow">↓ executes on</div>
+        <div class="jvm-layer os">
+          <div class="jvm-layer-title">🌐 ANY OPERATING SYSTEM</div>
+          <p>Windows · macOS · Linux · Android</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <div class="code-wrap">
+      <div class="code-label">JAVA — First Program (annotated)</div>
+      <pre><span class="kw">public</span> <span class="kw">class</span> <span class="cl">HelloWorld</span> {            <span class="cm">// Every Java program lives inside a class</span>
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="ty">String</span>[] args) {  <span class="cm">// This is the ENTRY POINT — Java starts here</span>
+
+        System.out.<span class="fn">println</span>(<span class="str">"Hello World"</span>);  <span class="cm">// Print a line to the console</span>
+
+    }  <span class="cm">// main() ends here</span>
+}  <span class="cm">// class ends here</span></pre>
+    </div>
+
+    <div class="analogy-grid">
+      <div class="analogy-card">
+        <div class="analogy-head code-side">In Code</div>
+        <div class="analogy-body"><code>public class HelloWorld</code> — the outer container. Every Java file needs exactly one public class.</div>
+      </div>
+      <div class="analogy-card">
+        <div class="analogy-head real-side">Real-world equivalent</div>
+        <div class="analogy-body">Think of a class like a chapter in a book — everything inside belongs to that chapter.</div>
+      </div>
+      <div class="analogy-card">
+        <div class="analogy-head code-side">In Code</div>
+        <div class="analogy-body"><code>public static void main</code> — Java hunts for this exact signature to start execution. No exceptions.</div>
+      </div>
+      <div class="analogy-card">
+        <div class="analogy-head real-side">Real-world equivalent</div>
+        <div class="analogy-body">Like the power button on a device — it doesn't matter what else is there, this is where it starts.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box amber" style="margin-top:16px;">
+    <div class="info-box-label">⚡ Key Facts About Java</div>
+    <ul>
+      <li><strong>Object-Oriented:</strong> Java organizes code around objects — real-world things with properties and behaviors</li>
+      <li><strong>Statically Typed:</strong> You must declare variable types before using them — this catches bugs at compile time</li>
+      <li><strong>Garbage Collected:</strong> Java automatically frees unused memory — no manual memory management</li>
+      <li><strong>Case Sensitive:</strong> <code>HelloWorld</code> and <code>helloworld</code> are completely different names in Java</li>
+    </ul>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- LESSON 2 -->
+<div id="lesson2">
+<section class="module-section fade-in">
+  <div class="lesson-header">
+    <div class="lesson-num-big">02</div>
+    <div class="lesson-header-text">
+      <div class="lesson-tag">Lesson 2</div>
+      <h2>Variables & <span>Data Types</span></h2>
+      <p style="color:var(--muted); font-size:15px;">How Java names, stores, and types the data in your program</p>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <p>A variable is a named slot in your computer's RAM. When you declare <code style="font-family:'IBM Plex Mono'; font-size:13px; background:var(--warm); padding:1px 6px; border-radius:3px;">int age = 22</code>, Java does three things simultaneously: it reserves memory space, labels it <em>age</em>, and writes the number 22 into it.</p>
+
+      <p style="margin-top:16px;">The <strong>data type</strong> tells Java how much memory to reserve and how to interpret the bits stored there. A text character and a decimal number need completely different storage structures — this is why Java requires you to declare types upfront.</p>
+
+      <div class="info-box red" style="margin-top:24px;">
+        <div class="info-box-label">🚨 Common Beginner Trap</div>
+        <p><strong>Local variables have no default value.</strong> If you declare <code style="font-family:'IBM Plex Mono'; font-size:12px;">int x;</code> and try to print it before assigning a value, Java will refuse to compile. This is a safety feature — always initialize your variables.</p>
+      </div>
+    </div>
+
+    <div>
+      <table class="type-table">
+        <tr>
+          <th>Type</th>
+          <th>Stores</th>
+          <th>Example</th>
+          <th>Size</th>
+        </tr>
+        <tr>
+          <td class="type-name">int</td>
+          <td>Whole numbers</td>
+          <td><code style="font-family:'IBM Plex Mono';font-size:12px;">22</code></td>
+          <td>4 bytes</td>
+        </tr>
+        <tr>
+          <td class="type-name">double</td>
+          <td>Decimal numbers</td>
+          <td><code style="font-family:'IBM Plex Mono';font-size:12px;">45000.50</code></td>
+          <td>8 bytes</td>
+        </tr>
+        <tr>
+          <td class="type-name">String</td>
+          <td>Text</td>
+          <td><code style="font-family:'IBM Plex Mono';font-size:12px;">"Rahul"</code></td>
+          <td>Variable</td>
+        </tr>
+        <tr>
+          <td class="type-name">boolean</td>
+          <td>True or false</td>
+          <td><code style="font-family:'IBM Plex Mono';font-size:12px;">true</code></td>
+          <td>1 bit</td>
+        </tr>
+        <tr>
+          <td class="type-name">char</td>
+          <td>Single character</td>
+          <td><code style="font-family:'IBM Plex Mono';font-size:12px;">'A'</code></td>
+          <td>2 bytes</td>
+        </tr>
+        <tr>
+          <td class="type-name">long</td>
+          <td>Very large integers</td>
+          <td><code style="font-family:'IBM Plex Mono';font-size:12px;">9876543210L</code></td>
+          <td>8 bytes</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="code-wrap" style="margin-top:8px;">
+    <div class="code-label">JAVA — Variables in action (from the module)</div>
+    <pre><span class="cm">// Declaring and initializing three common types</span>
+<span class="ty">int</span>    <span class="vn">age</span>    = <span class="val">22</span>;             <span class="cm">// whole number → 4 bytes reserved in RAM</span>
+<span class="ty">double</span> <span class="vn">salary</span> = <span class="val">45000.50</span>;      <span class="cm">// decimal → 8 bytes reserved in RAM</span>
+<span class="ty">String</span> <span class="vn">name</span>   = <span class="str">"Rahul"</span>;        <span class="cm">// text → stored as object in heap memory</span>
+
+<span class="cm">// Printing all three</span>
+System.out.<span class="fn">println</span>(<span class="str">"Name: "</span>   + <span class="vn">name</span>);    <span class="cm">// Name: Rahul</span>
+System.out.<span class="fn">println</span>(<span class="str">"Age: "</span>    + <span class="vn">age</span>);     <span class="cm">// Age: 22</span>
+System.out.<span class="fn">println</span>(<span class="str">"Salary: "</span> + <span class="vn">salary</span>);  <span class="cm">// Salary: 45000.5</span></pre>
+  </div>
+
+  <div class="exercise-box" style="margin-top:24px;">
+    <h4>✏️ Practice Exercise</h4>
+    <p>Write a Java program that stores the following and prints them all:</p>
+    <ol>
+      <li>Your full name as a <code style="font-family:'IBM Plex Mono'; font-size:12px;">String</code></li>
+      <li>Your age as an <code style="font-family:'IBM Plex Mono'; font-size:12px;">int</code></li>
+      <li>Your favorite programming language as a <code style="font-family:'IBM Plex Mono'; font-size:12px;">String</code></li>
+      <li>Whether you prefer coding at night as a <code style="font-family:'IBM Plex Mono'; font-size:12px;">boolean</code></li>
+    </ol>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- LESSON 3 -->
+<div id="lesson3">
+<section class="module-section fade-in">
+  <div class="lesson-header">
+    <div class="lesson-num-big">03</div>
+    <div class="lesson-header-text">
+      <div class="lesson-tag">Lesson 3</div>
+      <h2>Control Flow — <span>Making Decisions</span></h2>
+      <p style="color:var(--muted); font-size:15px;">Teaching your program to choose different paths</p>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <p>Real programs don't execute every line every time. They branch — they choose what to do based on conditions. This is <strong>control flow</strong>: the ability to direct your program down different paths depending on the data it encounters.</p>
+
+      <p style="margin-top:16px;">The <code style="font-family:'IBM Plex Mono'; font-size:13px; background:var(--warm); padding:1px 6px; border-radius:3px;">if-else</code> statement is the fundamental decision-making tool. Think of it as a fork in the road — your program evaluates a condition, and if it's true, it takes one path; otherwise it takes another.</p>
+
+      <div class="pull-quote">
+        <p>"If the condition is true, do this. Otherwise, do that. That's 90% of programming logic."</p>
+      </div>
+
+      <div class="info-box green">
+        <div class="info-box-label">💡 The Grading Formula</div>
+        <p>The marks check program from this lesson is a chained if-else. Java evaluates each condition top to bottom and executes the <strong>first one that is true</strong> — the rest are skipped. Order matters!</p>
+      </div>
+    </div>
+
+    <div>
+      <!-- FLOWCHART -->
+      <div style="background:var(--warm); border:1px solid var(--rule); border-radius:8px; padding:24px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); margin-bottom:16px; text-transform:uppercase;">Decision Flowchart</div>
+        <div class="flowchart">
+          <div class="flow-node start">START</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node process">Read: marks = 75</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node decision">marks ≥ 50?</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-decision-wrap">
+            <div class="flow-branch">
+              <div class="flow-branch-label">YES</div>
+              <div class="flow-node output">Print "Passed"</div>
+            </div>
+            <div class="flow-branch">
+              <div class="flow-branch-label">NO</div>
+              <div class="flow-node output" style="border-color:var(--red); background:#fdf0f0; color:var(--red);">Print "Failed"</div>
+            </div>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node end">END</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:32px;">
+    <div>
+      <div class="code-wrap">
+        <div class="code-label">JAVA — Basic if-else (from module)</div>
+        <pre><span class="ty">int</span> <span class="vn">marks</span> = <span class="val">75</span>;
+
+<span class="kw">if</span> (<span class="vn">marks</span> >= <span class="val">50</span>) {
+    System.out.<span class="fn">println</span>(<span class="str">"Student Passed"</span>);
+} <span class="kw">else</span> {
+    System.out.<span class="fn">println</span>(<span class="str">"Student Failed"</span>);
+}
+<span class="cm">// Output: Student Passed</span></pre>
+      </div>
+    </div>
+
+    <div>
+      <div class="code-wrap">
+        <div class="code-label">JAVA — Grading system (exercise solution)</div>
+        <pre><span class="ty">int</span> <span class="vn">marks</span> = <span class="val">82</span>;
+<span class="ty">char</span> <span class="vn">grade</span>;
+
+<span class="kw">if</span> (<span class="vn">marks</span> >= <span class="val">90</span>) {
+    <span class="vn">grade</span> = <span class="str">'A'</span>;          <span class="cm">// top scorers</span>
+} <span class="kw">else if</span> (<span class="vn">marks</span> >= <span class="val">75</span>) {
+    <span class="vn">grade</span> = <span class="str">'B'</span>;          <span class="cm">// good scorers</span>
+} <span class="kw">else if</span> (<span class="vn">marks</span> >= <span class="val">50</span>) {
+    <span class="vn">grade</span> = <span class="str">'C'</span>;          <span class="cm">// passing</span>
+} <span class="kw">else</span> {
+    <span class="vn">grade</span> = <span class="str">'F'</span>;          <span class="cm">// failed</span>
+}
+
+System.out.<span class="fn">println</span>(<span class="str">"Grade: "</span> + <span class="vn">grade</span>);
+<span class="cm">// Output: Grade: B</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box amber" style="margin-top:8px;">
+    <div class="info-box-label">🔍 Comparison Operators — Quick Reference</div>
+    <p>These operators produce a <code style="font-family:'IBM Plex Mono'; font-size:12px;">boolean</code> (true/false) used in conditions:</p>
+    <p style="margin-top:8px; font-family:'IBM Plex Mono'; font-size:13px; line-height:2.2;">
+      <span style="color:var(--amber);">==</span> &nbsp;equals &nbsp;&nbsp;&nbsp;
+      <span style="color:var(--amber);">!=</span> &nbsp;not equal &nbsp;&nbsp;&nbsp;
+      <span style="color:var(--amber);">&gt;</span> &nbsp;greater &nbsp;&nbsp;&nbsp;
+      <span style="color:var(--amber);">&lt;</span> &nbsp;less &nbsp;&nbsp;&nbsp;
+      <span style="color:var(--amber);">&gt;=</span> &nbsp;greater or equal &nbsp;&nbsp;&nbsp;
+      <span style="color:var(--amber);">&lt;=</span> &nbsp;less or equal
+    </p>
+    <p style="margin-top:4px; color:var(--red); font-weight:600;">⚠ Don't confuse = (assignment) with == (comparison). This is the most common bug in Java.</p>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- LESSON 4 -->
+<div id="lesson4">
+<section class="module-section fade-in">
+  <div class="lesson-header">
+    <div class="lesson-num-big">04</div>
+    <div class="lesson-header-text">
+      <div class="lesson-tag">Lesson 4</div>
+      <h2>Loops — <span>Mastering Repetition</span></h2>
+      <p style="color:var(--muted); font-size:15px;">How to make your program do something many times without repeating code</p>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <p>Imagine you need to print the numbers 1 to 1000. Writing 1000 <code style="font-family:'IBM Plex Mono'; font-size:13px; background:var(--warm); padding:1px 6px; border-radius:3px;">println</code> calls is absurd. Loops solve this by repeating a block of code automatically until a condition is no longer true.</p>
+
+      <p style="margin-top:16px;">The <strong>for loop</strong> is designed for situations where you know exactly how many times you want to repeat. It packs three things into one line: where to start, when to stop, and how to step forward.</p>
+
+      <div class="pull-quote">
+        <p>"A loop is just a shortcut for 'do this again... and again... until I say stop.'"</p>
+      </div>
+
+      <div class="info-box blue">
+        <div class="info-box-label">🔄 The 3 Parts of a For Loop</div>
+        <p style="font-family:'IBM Plex Mono'; font-size:13px; color:var(--blue); line-height:2.5;">
+          <strong>for (</strong><span style="color:var(--red);">init</span><strong> ; </strong><span style="color:var(--green);">condition</span><strong> ; </strong><span style="color:var(--amber);">update</span><strong>)</strong>
+        </p>
+        <ul style="margin-top:8px;">
+          <li><span style="color:var(--red); font-family:'IBM Plex Mono'; font-size:12px;">int i = 1</span> — Start: run once before the loop begins</li>
+          <li><span style="color:var(--green); font-family:'IBM Plex Mono'; font-size:12px;">i &lt;= 5</span> — Condition: checked before EACH iteration</li>
+          <li><span style="color:var(--amber); font-family:'IBM Plex Mono'; font-size:12px;">i++</span> — Update: runs AFTER each iteration</li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="loop-visual">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:2px; color:rgba(255,255,255,0.3); margin-bottom:20px; text-transform:uppercase;">Loop Execution Flow</div>
+        <div class="loop-phase">
+          <div class="loop-phase-num">①</div>
+          <div class="loop-phase-text">
+            <h4>INITIALIZE</h4>
+            <p>int i = 1 — runs once</p>
+          </div>
+        </div>
+        <div class="loop-arrow-down">↓</div>
+        <div class="loop-phase">
+          <div class="loop-phase-num">②</div>
+          <div class="loop-phase-text">
+            <h4>CHECK CONDITION</h4>
+            <p>i &lt;= 5 — if false, exit loop</p>
+          </div>
+        </div>
+        <div class="loop-arrow-down">↓ true</div>
+        <div class="loop-phase">
+          <div class="loop-phase-num">③</div>
+          <div class="loop-phase-text">
+            <h4>EXECUTE BODY</h4>
+            <p>println("Number: " + i)</p>
+          </div>
+        </div>
+        <div class="loop-arrow-down">↓</div>
+        <div class="loop-phase">
+          <div class="loop-phase-num">④</div>
+          <div class="loop-phase-text">
+            <h4>UPDATE</h4>
+            <p>i++ — increment i by 1</p>
+          </div>
+        </div>
+        <div class="loop-back">↑ go back to step ②</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:32px;">
+    <div>
+      <div class="code-wrap">
+        <div class="code-label">JAVA — For loop from the module</div>
+        <pre><span class="kw">for</span> (<span class="ty">int</span> <span class="vn">i</span> = <span class="val">1</span>; <span class="vn">i</span> <= <span class="val">5</span>; <span class="vn">i</span>++) {
+    System.out.<span class="fn">println</span>(<span class="str">"Number: "</span> + <span class="vn">i</span>);
+}
+<span class="cm">// Outputs: Number: 1 through Number: 5</span></pre>
+      </div>
+    </div>
+
+    <div>
+      <div style="overflow-x:auto;">
+        <div class="iter-row header">
+          <div class="iter-cell">Iter</div>
+          <div class="iter-cell">i</div>
+          <div class="iter-cell">i &lt;= 5?</div>
+          <div class="iter-cell output-cell">Output</div>
+        </div>
+        <div class="iter-row">
+          <div class="iter-cell">1st</div>
+          <div class="iter-cell">1</div>
+          <div class="iter-cell">✓ true</div>
+          <div class="output-cell">Number: 1</div>
+        </div>
+        <div class="iter-row">
+          <div class="iter-cell">2nd</div>
+          <div class="iter-cell">2</div>
+          <div class="iter-cell">✓ true</div>
+          <div class="output-cell">Number: 2</div>
+        </div>
+        <div class="iter-row">
+          <div class="iter-cell">3rd</div>
+          <div class="iter-cell">3</div>
+          <div class="iter-cell">✓ true</div>
+          <div class="output-cell">Number: 3</div>
+        </div>
+        <div class="iter-row">
+          <div class="iter-cell">4th</div>
+          <div class="iter-cell">4</div>
+          <div class="iter-cell">✓ true</div>
+          <div class="output-cell">Number: 4</div>
+        </div>
+        <div class="iter-row">
+          <div class="iter-cell">5th</div>
+          <div class="iter-cell">5</div>
+          <div class="iter-cell">✓ true</div>
+          <div class="output-cell">Number: 5</div>
+        </div>
+        <div class="iter-row exit">
+          <div class="iter-cell">—</div>
+          <div class="iter-cell">6</div>
+          <div class="iter-cell">✗ false</div>
+          <div class="output-cell" style="color:var(--red);">EXIT LOOP</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-box" style="margin-top:24px;">
+    <h4>✏️ Extend the Loop — Challenges</h4>
+    <ol>
+      <li>Print only <strong>even</strong> numbers from 1 to 20 (hint: use <code style="font-family:'IBM Plex Mono'; font-size:12px;">i % 2 == 0</code>)</li>
+      <li>Print a countdown from 10 to 1 (hint: change init, condition, and update direction)</li>
+      <li>Calculate the sum of all numbers from 1 to 100 using a loop</li>
+    </ol>
+  </div>
+</section>
+</div>
+
+<!-- MINI PROJECT -->
+<div id="project">
+<section class="project-section fade-in">
+  <div class="project-inner">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:3px; color:var(--amber); text-transform:uppercase; margin-bottom:12px;">Mini Project</div>
+    <h2>Student <em>Management</em> System</h2>
+    <p style="color:rgba(255,255,255,0.5); font-size:16px; max-width:600px; margin-top:8px; line-height:1.7;">Your first real Java program. This project combines everything from all four lessons into a working application that manages student records.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">➕</div>
+        <h4>Add Student</h4>
+        <p>Create a new Student object with id, name, and age. Uses constructors and object creation.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h4>Display Records</h4>
+        <p>Loop through all students and print their details. Combines loops and object access.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✏️</div>
+        <h4>Update Info</h4>
+        <p>Find a student by ID using conditions, then update their fields. Real CRUD logic.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗑️</div>
+        <h4>Delete Student</h4>
+        <p>Remove a record from the list. Introduces ArrayList manipulation and index handling.</p>
+      </div>
+    </div>
+
+    <div class="architecture-grid">
+      <div class="arch-card">
+        <div class="arch-card-header">Student.java — The Blueprint</div>
+        <pre><span class="kw">class</span> <span class="cl">Student</span> {
+
+    <span class="cm">// Instance variables — each student owns these</span>
+    <span class="ty">int</span>    <span class="vn">id</span>;
+    <span class="ty">String</span> <span class="vn">name</span>;
+    <span class="ty">int</span>    <span class="vn">age</span>;
+
+    <span class="cm">// Constructor — called when creating a student</span>
+    <span class="cl">Student</span>(<span class="ty">int</span> <span class="vn">id</span>, <span class="ty">String</span> <span class="vn">name</span>, <span class="ty">int</span> <span class="vn">age</span>) {
+        <span class="kw">this</span>.<span class="vn">id</span>   = <span class="vn">id</span>;    <span class="cm">// 'this' refers to the current object</span>
+        <span class="kw">this</span>.<span class="vn">name</span> = <span class="vn">name</span>;
+        <span class="kw">this</span>.<span class="vn">age</span>  = <span class="vn">age</span>;
+    }
+}</pre>
+      </div>
+
+      <div class="arch-card">
+        <div class="arch-card-header">Main.java — Using the Blueprint</div>
+        <pre><span class="ty">ArrayList</span>&lt;<span class="cl">Student</span>&gt; <span class="vn">students</span> = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
+
+<span class="cm">// ADD — create objects from the Student class</span>
+<span class="vn">students</span>.<span class="fn">add</span>(<span class="kw">new</span> <span class="cl">Student</span>(<span class="val">1</span>, <span class="str">"Priya"</span>, <span class="val">20</span>));
+<span class="vn">students</span>.<span class="fn">add</span>(<span class="kw">new</span> <span class="cl">Student</span>(<span class="val">2</span>, <span class="str">"Arjun"</span>, <span class="val">22</span>));
+
+<span class="cm">// DISPLAY — loop over all students</span>
+<span class="kw">for</span> (<span class="cl">Student</span> <span class="vn">s</span> : <span class="vn">students</span>) {
+    System.out.<span class="fn">println</span>(<span class="vn">s</span>.<span class="vn">id</span> + <span class="str">" | "</span> + <span class="vn">s</span>.<span class="vn">name</span> + <span class="str">" | "</span> + <span class="vn">s</span>.<span class="vn">age</span>);
+}
+<span class="cm">// Output:</span>
+<span class="cm">// 1 | Priya | 20</span>
+<span class="cm">// 2 | Arjun | 22</span></pre>
+      </div>
+    </div>
+
+    <div style="margin-top:32px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:24px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:2px; color:var(--amber); margin-bottom:16px; text-transform:uppercase;">Concepts this project teaches</div>
+      <div class="three-col">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:white; margin-bottom:6px;">OOP — Classes</div>
+          <p style="font-size:13px; color:rgba(255,255,255,0.4); line-height:1.6;">Student is a class — a blueprint. Each student you create is an <em>object</em> built from that blueprint.</p>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:white; margin-bottom:6px;">Collections — ArrayList</div>
+          <p style="font-size:13px; color:rgba(255,255,255,0.4); line-height:1.6;">Unlike arrays, ArrayList can grow and shrink dynamically as you add or remove students.</p>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:white; margin-bottom:6px;">For-each Loop</div>
+          <p style="font-size:13px; color:rgba(255,255,255,0.4); line-height:1.6;">The <code style="font-family:'IBM Plex Mono'; font-size:12px;">for (Student s : students)</code> syntax is a cleaner way to loop over collections.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz">
+<section class="quiz-section fade-in">
+  <div class="quiz-inner">
+    <div class="section-label" style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-bottom:12px;">Module Assessment</div>
+    <h2>Test Your <span>Understanding</span></h2>
+    <p style="color:var(--muted); font-size:15px; margin-top:8px; margin-bottom:8px;">5 questions covering all 4 lessons. Click to answer — instant feedback with explanations.</p>
+
+    <!-- Q1 -->
+    <div class="quiz-card">
+      <div class="quiz-q-head">
+        <div class="quiz-qnum">I.</div>
+        <div class="quiz-q-text">What does JVM stand for, and why is it essential to Java's design?</div>
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-btn" onclick="ans(this, false, 'qq1', 'Not quite — that is the compiler (javac), not the JVM.')"><span class="q-letter">A</span> Java Variable Manager — it manages variable storage</button>
+        <button class="quiz-btn" onclick="ans(this, true, 'qq1', 'Correct! The JVM is the runtime that executes bytecode on any OS — this is how Java achieves platform independence.')"><span class="q-letter">B</span> Java Virtual Machine — it runs bytecode on any operating system</button>
+        <button class="quiz-btn" onclick="ans(this, false, 'qq1', 'Close — but the JVM is a runtime, not a compiler. The compiler is javac.')"><span class="q-letter">C</span> Java Verification Module — it verifies code before compiling</button>
+        <button class="quiz-btn" onclick="ans(this, false, 'qq1', 'No — the JVM is not a text editor or IDE.')"><span class="q-letter">D</span> Java Visual Mode — it displays program output</button>
+      </div>
+      <div class="quiz-feedback" id="qq1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-card">
+      <div class="quiz-q-head">
+        <div class="quiz-qnum">II.</div>
+        <div class="quiz-q-text">What is wrong with this code? <code>int x; System.out.println(x);</code></div>
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-btn" onclick="ans(this, false, 'qq2', 'No — int is a perfectly valid type name in Java.')"><span class="q-letter">A</span> int is not a valid data type</button>
+        <button class="quiz-btn" onclick="ans(this, false, 'qq2', 'No — println is correct. The method name is not the issue.')"><span class="q-letter">B</span> println is spelled wrong</button>
+        <button class="quiz-btn" onclick="ans(this, true, 'qq2', 'Exactly right. Local variables have no default value in Java. You must initialize x before reading it or the compiler will reject it.')"><span class="q-letter">C</span> x is a local variable that was never initialized</button>
+        <button class="quiz-btn" onclick="ans(this, false, 'qq2', 'No — x is a valid variable name in Java.')"><span class="q-letter">D</span> x is not a valid variable name</button>
+      </div>
+      <div class="quiz-feedback" id="qq2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-card">
+      <div class="quiz-q-head">
+        <div class="quiz-qnum">III.</div>
+        <div class="quiz-q-text">A student scores 82. Which grade does the chained if-else in Lesson 3 assign?</div>
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-btn" onclick="ans(this, false, 'qq3', 'No — A requires marks ≥ 90. 82 does not qualify.')"><span class="q-letter">A</span> A</button>
+        <button class="quiz-btn" onclick="ans(this, true, 'qq3', 'Correct! 82 is not ≥ 90 (so not A), but it IS ≥ 75 — so the else-if for B triggers and we stop there.')"><span class="q-letter">B</span> B</button>
+        <button class="quiz-btn" onclick="ans(this, false, 'qq3', 'No — C requires marks ≥ 50 but the B condition fires first since 82 ≥ 75.')"><span class="q-letter">C</span> C</button>
+        <button class="quiz-btn" onclick="ans(this, false, 'qq3', 'No — 82 is clearly a passing score well above 50.')"><span class="q-letter">D</span> F</button>
+      </div>
+      <div class="quiz-feedback" id="qq3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-card">
+      <div class="quiz-q-head">
+        <div class="quiz-qnum">IV.</div>
+        <div class="quiz-q-text">In <code>for (int i = 1; i &lt;= 5; i++)</code>, how many times does the loop body execute?</div>
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-btn" onclick="ans(this, false, 'qq4', 'No — trace it: i goes 1, 2, 3, 4, 5. That is 5 iterations, not 4.')"><span class="q-letter">A</span> 4 times</button>
+        <button class="quiz-btn" onclick="ans(this, true, 'qq4', 'Correct! i starts at 1 and the condition is i ≤ 5. So it runs for i = 1, 2, 3, 4, 5 — exactly 5 times.')"><span class="q-letter">B</span> 5 times</button>
+        <button class="quiz-btn" onclick="ans(this, false, 'qq4', 'No — when i becomes 6, the condition i ≤ 5 is false and the loop exits. It never runs a 6th time.')"><span class="q-letter">C</span> 6 times</button>
+        <button class="quiz-btn" onclick="ans(this, false, 'qq4', 'No — the loop has a clear exit condition. It will not run infinitely.')"><span class="q-letter">D</span> Infinitely</button>
+      </div>
+      <div class="quiz-feedback" id="qq4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-card">
+      <div class="quiz-q-head">
+        <div class="quiz-qnum">V.</div>
+        <div class="quiz-q-text">In the mini project, what is the role of the <code>Student</code> constructor?</div>
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-btn" onclick="ans(this, false, 'qq5', 'No — printing is done by System.out.println, not a constructor.')"><span class="q-letter">A</span> It prints student data to the console</button>
+        <button class="quiz-btn" onclick="ans(this, false, 'qq5', 'No — the constructor sets up fields when an object is created, not later.')"><span class="q-letter">B</span> It updates a student's information later in the program</button>
+        <button class="quiz-btn" onclick="ans(this, true, 'qq5', 'Correct! A constructor is a special method that runs automatically when you create a new object with "new". It initializes the object\'s fields (id, name, age).')"><span class="q-letter">C</span> It initializes the object's fields when a new Student is created</button>
+        <button class="quiz-btn" onclick="ans(this, false, 'qq5', 'No — the constructor is part of the Student class, not the ArrayList.')"><span class="q-letter">D</span> It adds the student to the ArrayList automatically</button>
+      </div>
+      <div class="quiz-feedback" id="qq5"></div>
+    </div>
+
+    <div id="scoreBoard">
+      <h3 id="scoreText"></h3>
+      <p id="scoreMsg"></p>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<footer>
+  <span>The Java Gazette</span> — A Complete Learning Module &nbsp;|&nbsp; Java Programming Course
+</footer>
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+  const p = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+// Scroll nav
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+// Intersection observer
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+// Quiz
+const answered = {};
+const total = 5;
+let correct = 0;
+
+function ans(btn, isCorrect, qid, msg) {
+  if (answered[qid]) return;
+  answered[qid] = true;
+  if (isCorrect) correct++;
+
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  const fb = document.getElementById(qid);
+  fb.textContent = (isCorrect ? '✓  ' : '✗  ') + msg;
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'ok' : 'no');
+
+  if (Object.keys(answered).length === total) {
+    const sb = document.getElementById('scoreBoard');
+    sb.style.display = 'block';
+    document.getElementById('scoreText').textContent = correct + ' / ' + total + ' correct';
+    const msgs = [
+      'Keep reviewing — re-read the lessons and try again.',
+      'Good effort! A few concepts need more practice.',
+      'Solid foundation — well done!',
+      'Excellent! You have a strong grasp of all four lessons.',
+      'Perfect score! You are ready to move to the next module.'
+    ];
+    document.getElementById('scoreMsg').textContent = msgs[correct];
+    sb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+</script>
+</body>
+</html>
